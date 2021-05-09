@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         skView.showsNodeCount = true
         let scene = GameScene(size: skView.frame.size)
         skView.presentScene(scene)
+        //マルチタップを無効にする
+        skView.isMultipleTouchEnabled = false
         // Do any additional setup after loading the view.
     }
 
