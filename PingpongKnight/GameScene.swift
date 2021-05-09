@@ -35,5 +35,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         back.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         back.size = self.size
         self.addChild(back)
+        //重力の設定とcontactDelegateの設定
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: -3)
+        self.physicsWorld.contactDelegate = self
     }
 }
