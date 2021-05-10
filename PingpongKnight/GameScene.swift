@@ -42,6 +42,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         //ボールの作成
         makeBall()
+        //壁の作成
+        setwall()
     }
     
     //ボール（勇者）の作成
@@ -51,7 +53,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         ball.physicsBody?.contactTestBitMask = 1
         
         //ボールを配置
-        ball.position = CGPoint(x: self.frame.size.width/2, y: 500)
+        ball.position = CGPoint(x: self.frame.size.width*0.5, y: 500)
         self.addChild(ball)
+    }
+    
+    //壁の作成
+    func setwall() {
+        var magnification = self.frame.size.height/wallLeft.size.height
+        wallLeft.size.height = self.frame.size.height
+        wallLeft.size.width = wallLeft.size.width*magnification
+        wallLeft.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "wallleft"), size: wallLeft.size)
+        wallLeft.physicsBody?.restitution = 0.1//restitution coefficient:反発係数
+        wallLeft.physicsBody?.isDynamic = false
+        wallLeft.physicsBody?.contactTestBitMask = 1
+        wallLeft.position = CGPoint(x: wallLeft.size.width/2, y: self.frame.size.height/2)
+        self.addChild(wallLeft)
+        
+        magnification = self.frame.size.height/wallRight.size.height
+        wallRight.size.height = self.frame.size.height
+        wallRight.size.width = wallRight.size.width*magnification
+        wallRight.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "wallright"), size: wallRight.size)
+        wallRight.physicsBody?.restitution = 0.1//restitution coefficient:反発係数
+        wallRight.physicsBody?.isDynamic = false
+        wallRight.physicsBody?.contactTestBitMask = 1
+        wallRight.position = CGPoint(x: self.frame.size.width - wallRight.size.width/2, y: self.frame.size.height/2)
+        self.addChild(wallRight)
     }
 }
