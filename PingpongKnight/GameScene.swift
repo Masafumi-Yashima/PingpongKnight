@@ -28,15 +28,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var monster1 = SKSpriteNode(imageNamed: "monster1a")
     var monster2 = SKSpriteNode(imageNamed: "monster2a")
     var monster3 = SKSpriteNode(imageNamed: "monster3a")
-    let playSound = SKAction.playSoundFileNamed("click.mp3", waitForCompletion: false)//効果音
+    let playSound = SKAction.playSoundFileNamed("click.mp3", waitForCompletion: false)
     
     override func didMove(to view: SKView) {
         //背景
         back.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         back.size = self.size
+        back.zPosition = -100
         self.addChild(back)
         //重力の設定とcontactDelegateの設定
         self.physicsWorld.gravity = CGVector(dx: 0, dy: -3)
         self.physicsWorld.contactDelegate = self
+        
+        //ボールの作成
+        makeBall()
+    }
+    
+    //ボール（勇者）の作成
+    func makeBall() {
+        //ボールにphysicsBodyの設定
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width*0.4)
+        ball.physicsBody?.contactTestBitMask = 1
+        
+        //ボールを配置
+        ball.position = CGPoint(x: self.frame.size.width/2, y: 500)
+        self.addChild(ball)
     }
 }
