@@ -44,6 +44,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         makeBall()
         //壁の作成
         setwall()
+        //アームの作成
+        setarm()
+    }
+    
+    //タップ開始時
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let swingAction1 = SKAction.rotate(byAngle: CGFloat(Double.pi*0.25), duration: 0.05)
+        let swingAction2 = SKAction.rotate(byAngle: CGFloat(-Double.pi*0.25), duration: 0.05)
+        armLeft.run(swingAction1)
+        armRight.run(swingAction2)
+    }
+    
+    //タップ終了時
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let swingAction1 = SKAction.rotate(byAngle: CGFloat(-Double.pi*0.25), duration: 0.05)
+        let swingAction2 = SKAction.rotate(byAngle: CGFloat(Double.pi*0.25), duration: 0.05)
+        armLeft.run(swingAction1)
+        armRight.run(swingAction2)
     }
     
     //ボール（勇者）の作成
@@ -59,7 +77,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //壁の作成
     func setwall() {
-        var magnification = self.frame.size.height/wallLeft.size.height
+        //画像の縮尺
+        let magnification = self.frame.size.height/wallLeft.size.height
         wallLeft.size.height = self.frame.size.height
         wallLeft.size.width = wallLeft.size.width*magnification
         wallLeft.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "wallleft"), size: wallLeft.size)
@@ -69,7 +88,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallLeft.position = CGPoint(x: wallLeft.size.width/2, y: self.frame.size.height/2)
         self.addChild(wallLeft)
         
-        magnification = self.frame.size.height/wallRight.size.height
+//        magnification = self.frame.size.height/wallRight.size.height
         wallRight.size.height = self.frame.size.height
         wallRight.size.width = wallRight.size.width*magnification
         wallRight.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "wallright"), size: wallRight.size)
@@ -78,5 +97,28 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallRight.physicsBody?.contactTestBitMask = 1
         wallRight.position = CGPoint(x: self.frame.size.width - wallRight.size.width/2, y: self.frame.size.height/2)
         self.addChild(wallRight)
+    }
+    
+    //アームの作成
+    func setarm() {
+        //画像の縮尺
+        let magnification = self.frame.size.height/wallLeft.size.height*1.5
+        armLeft.size.height = armLeft.size.height*magnification
+        armLeft.size.width = armLeft.size.width*magnification
+        armLeft.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "leftarm"), size: armLeft.size)
+        armLeft.physicsBody?.restitution = 1.2
+        armLeft.physicsBody?.isDynamic = false
+        armLeft.physicsBody?.contactTestBitMask = 1
+        armLeft.position = CGPoint(x: self.frame.size.width/2 - armLeft.size.width*0.6, y: 100)
+        self.addChild(armLeft)
+        
+        armRight.size.height = armRight.size.height*magnification
+        armRight.size.width = armRight.size.width*magnification
+        armRight.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "rightarm"), size: armRight.size)
+        armRight.physicsBody?.restitution = 1.2
+        armRight.physicsBody?.isDynamic = false
+        armRight.physicsBody?.contactTestBitMask = 1
+        armRight.position = CGPoint(x: self.frame.size.width/2 + armRight.size.width*0.6, y: 100)
+        self.addChild(armRight)
     }
 }
